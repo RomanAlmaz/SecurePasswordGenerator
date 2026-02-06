@@ -57,3 +57,6 @@ python manage.py runserver
 - Django 6.0.1
 - Python 3.x
 - HTML5, CSS3, JavaScript
+
+## Сайт
+- https://securepasswordgenerator.onrender.com
