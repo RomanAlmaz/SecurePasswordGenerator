@@ -1,0 +1,22 @@
+{% extends 'generator/base.html' %}
+
+{% block main %}
+<div class="home-grid">
+    <a href="{% url 'password_generator' %}" class="home-square home-square-pass">
+        <span class="home-square-icon">🔐</span>
+        {% if current_lang == 'en' %}
+        <span class="home-square-title">Password Generator</span>
+        {% else %}
+        <span class="home-square-title">Генератор паролей</span>
+        {% endif %}
+    </a>
+    <a href="{% url 'word_generator' %}" class="home-square home-square-word">
+        <span class="home-square-icon">📝</span>
+        {% if current_lang == 'en' %}
+        <span class="home-square-title">Word Generator</span>
+        {% else %}
+        <span class="home-square-title">Генератор слов</span>
+        {% endif %}
+    </a>
+</div>
+{% endblock %}

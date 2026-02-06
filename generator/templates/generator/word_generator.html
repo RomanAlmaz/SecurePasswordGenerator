@@ -1,0 +1,57 @@
+{% extends 'generator/base.html' %}
+
+{% block title %}{% if current_lang == 'en' %}Word Generator{% else %}Генератор слов{% endif %} - Secure Password Generator{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>📝 {% if current_lang == 'en' %}Word Generator for Crypto Wallets{% else %}Генератор слов для криптокошельков{% endif %}</h1>
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <label for="count"><strong>{% if current_lang == 'en' %}Number of words:{% else %}Количество слов:{% endif %}</strong></label>
+        <input type="number" id="count" name="count" value="{{ count }}" min="1" max="2048" required>
+        
+        <button type="submit" class="btn">{% if current_lang == 'en' %}Generate words{% else %}Сгенерировать слова{% endif %}</button>
+    </form>
+    
+    {% if words %}
+    <div class="word-list">
+        <h2 style="margin-top: 2rem;">{% if current_lang == 'en' %}Generated words:{% else %}Сгенерированные слова:{% endif %}</h2>
+        {% for word in words %}
+        <div class="word-row">
+            <span class="word-text">{{ word }}</span>
+            <button class="copy-btn" onclick="copyToClipboard('{{ word }}', this)">{% if current_lang == 'en' %}Copy{% else %}Копировать{% endif %}</button>
+            <span class="success-message">✓ {% if current_lang == 'en' %}Copied!{% else %}Скопировано!{% endif %}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function copyToClipboard(text, button) {
+    navigator.clipboard.writeText(text).then(function() {
+        var successMsg = button.nextElementSibling;
+        successMsg.style.display = 'inline';
+        setTimeout(function() { successMsg.style.display = 'none'; }, 2000);
+    }).catch(function() {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            document.execCommand('copy');
+            var successMsg = button.nextElementSibling;
+            successMsg.style.display = 'inline';
+            setTimeout(function() { successMsg.style.display = 'none'; }, 2000);
+        } catch (e) {}
+        document.body.removeChild(textarea);
+    });
+}
+</script>
+{% endblock %}
