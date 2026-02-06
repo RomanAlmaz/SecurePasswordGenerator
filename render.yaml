@@ -1,0 +1,22 @@
+# Render Blueprint: https://render.com/docs/blueprint-spec
+# Развёртывание: подключите репозиторий GitHub в Render и создайте Web Service вручную,
+# либо используйте этот файл для Blueprint (Deploy from Blueprint).
+
+services:
+  - type: web
+    name: secure-password-generator
+    runtime: python
+    region: frankfurt
+
+    buildCommand: "bash build.sh"
+    startCommand: "gunicorn secure_password_generator.wsgi:application"
+
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.2"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com"
